@@ -27,3 +27,13 @@ centered = false
 [node name="Player" parent="." instance=ExtResource("4_d1c63")]
 position = Vector2(147, 91)
 Speed = 81.0
+_controlScheme = 1
+
+[node name="Player2" parent="." instance=ExtResource("4_d1c63")]
+position = Vector2(226, 96)
+Speed = 81.0
+_controlScheme = 2
+
+[node name="Player3" parent="." instance=ExtResource("4_d1c63")]
+position = Vector2(182, 133)
+Speed = 81.0

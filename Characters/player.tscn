@@ -3,6 +3,21 @@
 [ext_resource type="Texture2D" uid="uid://bu68lc1iukvlf" path="res://assets/art/characters/soccer-player.png" id="1_5mj4t"]
 [ext_resource type="Script" uid="uid://17gmcvej4pxy" path="res://Characters/Player.cs" id="1_eovys"]
 
+[sub_resource type="Animation" id="Animation_eovys"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_5mj4t"]
 resource_name = "idle"
 length = 0.6
@@ -19,21 +34,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
-}
-
-[sub_resource type="Animation" id="Animation_eovys"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_vb825"]
@@ -65,10 +65,11 @@ _data = {
 radius = 3.0
 height = 18.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("AnimationPlayer")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("AnimationPlayer", "_sprite2D")]
 script = ExtResource("1_eovys")
 Speed = 80.0
 AnimationPlayer = NodePath("AnimationPlayer")
+_sprite2D = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
