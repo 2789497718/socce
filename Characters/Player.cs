@@ -1,41 +1,63 @@
 using Godot;
+using Soccer;
 using Soccer.Characters;
 
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	private float Speed;
-	[Export]
-	private AnimationPlayer AnimationPlayer;
+	public float Speed;
 	
 	[Export]
-	private ControlScheme _controlScheme;
+	public AnimationPlayer AnimationPlayer;
+	
+	[Export]
+	public ControlScheme _controlScheme;
 	[Export]
 	private Sprite2D _sprite2D;
 	
 	private Vector2 heading=Vector2.Right;
+
+	private PlayerStart current_start;
+
+	private PlayerStateFactory PlayerStateFactory=new PlayerStateFactory();
+
+
+	public override void _Ready()
+	{
+		SwitchStart(State.MOVING);
+		base._Ready();
+	}
+
+	public void SwitchStart(State state)
+	{
+		if (state!=null)
+		{
+			if (current_start!=null)
+			{
+				current_start.StateTransitionRequested -= SwitchStart;
+				current_start.QueueFree();
+			}
+			current_start = PlayerStateFactory.GetFreshStart(state);
+			current_start.SetUp(this);
+			current_start.StateTransitionRequested += SwitchStart;
+			current_start.Name = "PlayerStart" + state;
+			CallDeferred("add_child", current_start);
+		}
+	}
+
 	public override void _Process(double delta)
 	{
-	   // Vector2 vector2 = Input.GetVector("p1_left", "p1_right", "p1_up", "p1_down");
-	   if (_controlScheme == ControlScheme.CPU)
-	   {
-		  return;
-	   }
-	   else
-	   {
-		   Vector2 vector2 = KeyUtils.GetMovementVector(_controlScheme);
-		   Velocity = vector2 * Speed;
-	   }
-	   
-		SetMovementAnimation();
-	
-	
 		SetHeading();
 		MoveAndSlide();
 		base._Process(delta);
 	}
+	
+	
 
-	private void SetHeading()
+	/// <summary>
+	/// 转身
+	/// </summary>
+	public void SetHeading()
 	{
 		if (Velocity.X>0)
 		{
@@ -49,7 +71,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void SetMovementAnimation()
+	public void SetMovementAnimation()
 	{
 		if (Velocity.Length() > 0.1f)
 		{

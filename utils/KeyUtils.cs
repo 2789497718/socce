@@ -61,7 +61,8 @@ public static partial   class   KeyUtils
         // 2. 使用 Godot 内置的 Input.GetVector 方法
         // 这个方法会自动处理输入强度（支持手柄摇杆）和归一化（防止斜向移动速度过快）
         // 参数顺序: negative_x, positive_x, negative_y, positive_y
-        return Input.GetVector(left, right, up, down);
+        Vector2 vector2 = Input.GetVector(left, right, up, down);
+        return vector2;
     }
     
     
@@ -79,5 +80,10 @@ public static partial   class   KeyUtils
             }
             GD.PrintErr($"错误: 未能找到控制方案 '{scheme}' 的动作 '{action}' 的映射!");
             return null;
+        }
+
+        public static bool IsActionJustPressed(ControlScheme scheme, Action action)
+        {
+            return Input.IsActionJustPressed(GetActionString(scheme,action));
         }
 }
